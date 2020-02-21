@@ -13,7 +13,22 @@
 //       ' ### '
 //       '#####'
 
-function pyramid(n) {}
+function pyramid(n) {
+  for (let i = 1; i <= n; i++) {
+    let pyramid = '';
+    for (let pad = 0; pad < (n - i); pad++) {
+      pyramid += ' ';
+    }
+    for (let hash = 0; hash < (i * 2) - 1; hash++) {
+      pyramid += '#';
+    }
+    for (let pad = 0; pad < (n - i); pad++) {
+      pyramid += ' ';
+    }
+    console.error(pyramid);
+    console.log(pyramid);
+  }
+}
 
 // _________ _______  _______ _________   _______  _______  _______  _______  _______
 // \__   __/(  ____ \(  ____ \\__   __/  (  ____ \(  ___  )(  ____ \(  ____ \(  ____ \
