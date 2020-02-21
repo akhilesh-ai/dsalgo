@@ -16,7 +16,19 @@
 //       '### '
 //       '####'
 
-function steps(n) {}
+function steps(n) {
+  for (let i = 1; i <= n; i++) {
+    let steps = '';
+    for (let hash = 0; hash < i; hash++) {
+      steps += '#';
+    }
+    for (let pad = 0; pad < (n - i); pad++) {
+      steps += ' ';
+    }
+    console.error(steps);
+    console.log(steps);
+  }
+}
 
 // _________ _______  _______ _________   _______  _______  _______  _______  _______
 // \__   __/(  ____ \(  ____ \\__   __/  (  ____ \(  ___  )(  ____ \(  ____ \(  ____ \
