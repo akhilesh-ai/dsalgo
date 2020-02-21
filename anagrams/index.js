@@ -8,8 +8,49 @@
 //   anagrams('Heart!', 'EARTH') --> True
 //   anagrams('lol', 'lolc') --> False
 
-function anagrams(stringA, stringB) {}
+function anagrams(stringA, stringB) {
+  stringA = stringA.toLowerCase().replace(/[^A-Z0-9]+/gi, "");
+  stringB = stringB.toLowerCase().replace(/[^A-Z0-9]+/gi, "");
 
+  if (stringA.length !== stringB.length) {
+    return false;
+  }
+
+  if (stringA === stringB) {
+    return true;
+  }
+
+  const stringACounts = {};
+
+  for (let char of stringA) {
+    stringACounts[char] = stringACounts[char] + 1 || 1;
+  }
+
+  for (let char of stringB) {
+    if (!stringACounts[char]) {
+      return false;
+    } else {
+      stringACounts[char]--;
+    }
+  }
+
+  return true;
+}
+
+function anagrams1(stringA, stringB) {
+  stringA = stringA.toLowerCase().replace(/[\W_]+/gi, "");
+  stringB = stringB.toLowerCase().replace(/[\W_]+/gi, "");
+  stringA = stringA
+    .split("") // O(n)
+    .sort() // O(nlogn)
+    .join(""); // // O(n)
+  //O(nlogn + 2n) = O(nlogn)
+  stringB = stringB
+    .split("")
+    .sort()
+    .join("");
+  return stringA === stringB;
+}
 // _________ _______  _______ _________   _______  _______  _______  _______  _______
 // \__   __/(  ____ \(  ____ \\__   __/  (  ____ \(  ___  )(  ____ \(  ____ \(  ____ \
 //    ) (   | (    \/| (    \/   ) (     | (    \/| (   ) || (    \/| (    \/| (    \/
@@ -38,6 +79,7 @@ const { assert } = chai;
 
 describe("Anagrams", () => {
   it("works if case sensitivity and non word characters NOT taken into account", () => {
+    assert.equal(anagrams("facee", "fecad"), false);
     assert.equal(anagrams("earth", "heart"), true);
 
     assert.equal(anagrams("love", "meow"), false);
