@@ -28,6 +28,64 @@ class JSProblems {
         console.log('Output: ', newObj);  //Output: {1: 'one', 2: 'two', 3: 'three'}  
     }
 
+    arrayToObject(arr = ['a', 'b', 'c', 'd']) {
+
+        console.log('Input Array => ', arr);
+        // Solution 1: Using spread operator
+        let output1 = { ...arr };
+        console.log('Solution 1 => ', output1);  // { "0": "a", "1": "b", "2": "c" }
+
+        // Solution 2:
+        let output2 = Object.assign({}, arr);
+        console.log('Solution 2 => ', output2)  // { "0": "a", "1": "b", "2": "c" }
+
+        // Solution 3:
+        let output3 = arr.reduce((a, v) => ({ ...a, [v]: v }), {});
+        console.log('Solution 3 => ', output3); //{ a: 'a', b: 'b', c: 'c', d: 'd' }
+
+        // Solution 4: // a = result object, v = current value, i = index, 4th ar will be array
+        let output4 = arr.reduce((a, v, i, arr) => ({ ...a, [v]: i }), {});
+        console.log('Solution 4 => ', output4); // { a: 0, b: 1, c: 2, d: 3 }
+
+        // For the Output just do i+1 in solution 4 {a:1,b:2,c:3,d:4}
+
+        // Solution 5: 
+        let output5 = arr.reduce(function (result, item, index, array) {
+            result[index] = item; //a, b, c // swap index with item to swap object keys
+            return result;
+        }, {});
+        console.log('Solution 5 => ', output5);
+
+    }
+
+    arrayObjectsTokeyObject() {
+
+        // from:
+        const arr = [
+            {
+                id: 123,
+                name: 'aaa'
+            },
+            {
+                id: 456,
+                name: 'bbb'
+            },
+            {
+                id: 789,
+                name: 'ccc'
+            }
+        ];
+        // to:
+        // {
+        //     '123': { id: 123, name: 'aaa' },
+        //     '456': { id: 456, name: 'bbb' },
+        //     '789': { id: 789, name: 'ccc' }
+        // }
+        const result = arr.reduce((obj, cur) => ({ ...obj, [cur.id]: cur }), {})
+        return result;
+
+    }
+
     countEachVowelsInString() {
         //Write a function which will take a string as an argument and return the occurrence of all the vowels in that string
 
@@ -146,6 +204,55 @@ class JSProblems {
         return arr;
     }
 
+    reverseString(str = 'abcd') {
+        // Write a program to reverse string 
+        // Return a string with the order of characters reversed
+        //   reverse('abcd') === 'dcba'
+        //   reverse('Hello!') === '!olleH'
+
+        // solution 1:
+        let res = "";
+        for (let char of str) {
+            res = char + res;
+        }
+        // solution 2:
+        // return str.split('').reverse().join('');
+
+        // solution 3:
+        // return str.split('').reduce((output, char) => { output = char + output; return output; });
+
+        // solution 4:
+        // for (let i = 0; i < str.length; i++) {
+        //  res = str[i] + res;
+        // }
+
+        console.log(res);
+        return res;
+    }
+
+    // Given an integer, return an integer with the digits
+    // reversed.
+    // --- Examples
+    //   reverseInt(13) === 31
+    //   reverseInt(404) === 404
+    //   reverseInt(100) === 1
+    //   reverseInt(-13) === -31
+    //   reverseInt(-100) === -1
+
+    reverseInt(n = 503) {
+        let str = n.toString();
+        let reversed = "";
+        for (let char of str) {
+            reversed = char + reversed;
+        }
+        reversed = parseInt(reversed);
+        if (n < 0) {
+            reversed = reversed * -1;
+        }
+        return reversed;
+    }
+
+
     twoSum(array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], sum = 5) {
         //Find pairs whose sum is equal to a common number from given array
         let map = {};
@@ -232,12 +339,53 @@ class JSProblems {
         return stringA === stringB;
     }
 
+    // Given a string, return true or false depending if the string
+    // is a palindrome.  Palindromes are words that read the same backwards
+    // and forwards. Make sure it is case insensitive!
+    // --- Examples:
+    //   palindrome("Madam") === true
+    //   palindrome("love") === false
+
+    palindrome(str = 'Madam') {
+        str = str.toLowerCase();
+        let reversedStr = "";
+        for (let char of str) {
+            reversedStr = char + reversedStr;
+        }
+        return str === reversedStr;
+    }
+
+    stringArraySortLowerUpper() {
+        var arr = ['INDIA', 'india', 'B', 'b', 'c', 'd', 'D', 'C'];
+        //OUTPUT: ['india', 'INDIA', 'd', 'D', 'c', 'C', 'b', 'B']
+    }
+
+    arrayAddItemToFirstAndLast(arr = [1, 2, 3, 4, 5]) {
+        // Expected Output ['start', 1, 2, 3, 4, 5, 'end'];
+
+        // Solution 1: 
+        arr.unshift('start');
+        arr.push('end');
+
+        // Solution 2: Using spread operator
+        //let newArr = ['start', ...arr, 'end'];
+
+        console.log(arr);
+    }
+
+
+
 }
 
 const js = new JSProblems();
 
 //js.stringCompression('ppppshkshdkjjjjjj');
-console.log(js.anagramsSolution2());
+console.log(js.arrayAddItemToFirstAndLast());
+
+// references:
+// https://www.thatjsdude.com/interview/js1.html
+// https://www.thatjsdude.com/interview/js2.html
+
 
 
 // BST algo and sorting alog
