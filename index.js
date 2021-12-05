@@ -132,6 +132,20 @@ class JSProblems {
         return arr;
     }
 
+    reverseArray(arr = [1, 2, 3, 4, 5]) {
+        // Write a program to reverse array elements
+        console.log('Input: ', arr);
+        // mannual solution
+        for (let i = 0; i < arr.length / 2; i++) {
+            let temp = arr[i];
+            arr[i] = arr[arr.length - i - 1];
+            arr[arr.length - i - 1] = temp;
+        }
+        // arr.reverse() built-in method solution
+        console.log('Output: ', arr);
+        return arr;
+    }
+
     twoSum(array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], sum = 5) {
         //Find pairs whose sum is equal to a common number from given array
         let map = {};
@@ -162,13 +176,69 @@ class JSProblems {
         return output[m];
     }
 
-    
 
+    // Check if two strings are anagrams of each other.
+    // One string is an anagram of another if it uses exact same characters
+    // in exact same quantity. Only consider word characters, and make sure the
+    // function is case insensitive.
+    // --- Examples
+    //   anagrams('heart', 'earth') --> True
+    //   anagrams('heart', '  earth') --> True
+    //   anagrams('Heart!', 'EARTH') --> True
+    //   anagrams('lol', 'lolc') --> False
 
+    // Anagram of https://www.geeksforgeeks.org/check-whether-two-strings-are-anagram-of-each-other/
+
+    anagramsSolution1(stringA = 'heart', stringB = 'earth') {
+        stringA = stringA.toLowerCase().replace(/[^A-Z0-9]+/gi, "");
+        stringB = stringB.toLowerCase().replace(/[^A-Z0-9]+/gi, "");
+
+        if (stringA.length !== stringB.length) {
+            return false;
+        }
+
+        if (stringA === stringB) {
+            return true;
+        }
+
+        const stringACounts = {};
+
+        for (let char of stringA) {
+            stringACounts[char] = stringACounts[char] + 1 || 1;
+        }
+
+        for (let char of stringB) {
+            if (!stringACounts[char]) {
+                return false;
+            } else {
+                stringACounts[char]--;
+            }
+        }
+        return true;
+    }
+
+    anagramsSolution2(stringA = 'Heart!', stringB = 'EARTH') {
+        stringA = stringA.toLowerCase().replace(/[\W_]+/gi, "");
+        stringB = stringB.toLowerCase().replace(/[\W_]+/gi, "");
+        stringA = stringA
+            .split("") // O(n)
+            .sort() // O(nlogn)
+            .join(""); // // O(n)
+        //O(nlogn + 2n) = O(nlogn)
+        stringB = stringB
+            .split("")
+            .sort()
+            .join("");
+        return stringA === stringB;
+    }
 
 }
 
 const js = new JSProblems();
 
 //js.stringCompression('ppppshkshdkjjjjjj');
-js.totalVowelsInString();
+console.log(js.anagramsSolution2());
+
+
+// BST algo and sorting alog
+// Searching algo
