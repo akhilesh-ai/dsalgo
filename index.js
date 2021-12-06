@@ -3,7 +3,7 @@ class JSProblems {
 
     getDuplicateValuesFromArray() {
         // Write a program to output all duplicates in array.
-        let array = [1, 4, 5, 1, 3, 7, 7, 8, 8, 6, 3]; //1, 3, 7, 8
+        let array = [1, 4, 5, 1, 3, 7, 7, 7, 8, 8, 6, 3]; //1, 3, 7, 8
         let counts = {};
         let output = [];
         for (let item of array) {
@@ -15,6 +15,40 @@ class JSProblems {
         // output = array.filter((e, i, a) => a.indexOf(e) !== i); this is an alternate solution
         console.log(output, counts);
         return output;
+    }
+
+    removeDuplicatesFromArray(arr = [1, 1, 2, 3, 3, 4, 4, 4, 5]) {
+        console.log('Input=> ', arr);
+        // Solution 1:
+        let output1 = new Set(arr);
+        console.log('Output1=> ', output1); // Set(5) { 1, 2, 3, 4, 5 }
+
+        // Solution 1:
+        let output2 = [...new Set(arr)];
+        console.log('Output2=> ', output2) // [ 1, 2, 3, 4, 5 ]
+
+        let output3 = [];
+        let countObj = {};
+        for (let item of arr) {
+            //countObj[item] = countObj[item] >= 1 ? countObj[item] + 1 : 1; // same logic as below line
+            countObj[item] = countObj[item] + 1 || 1;
+            if (countObj[item] === 1) {
+                output3.push(item);
+            }
+        }
+        console.log('Output3=> ', output3, countObj, Object.keys(countObj)); // { '1': 2, '2': 1, '3': 2, '4': 3, '5': 1 } [ '1', '2', '3', '4', '5' ]
+
+        let output4 = [];
+        for (let item of arr) {
+            if (output4.indexOf(item) === -1) {
+                output4.push(item);
+            }
+        }
+        console.log('Output4=> ', output4); // [ 1, 2, 3, 4, 5 ]
+
+        let output5 = arr.filter((e, i, a) => a.indexOf(e) === i);
+        console.log('Output5=> ', output5); // [ 1, 2, 3, 4, 5 ]
+
     }
 
     swapKeyValuePairs() {
@@ -230,16 +264,15 @@ class JSProblems {
         return res;
     }
 
-    // Given an integer, return an integer with the digits
-    // reversed.
-    // --- Examples
-    //   reverseInt(13) === 31
-    //   reverseInt(404) === 404
-    //   reverseInt(100) === 1
-    //   reverseInt(-13) === -31
-    //   reverseInt(-100) === -1
-
     reverseInt(n = 503) {
+        // Given an integer, return an integer with the digits
+        // reversed.
+        // --- Examples
+        //   reverseInt(13) === 31
+        //   reverseInt(404) === 404
+        //   reverseInt(100) === 1
+        //   reverseInt(-13) === -31
+        //   reverseInt(-100) === -1
         let str = n.toString();
         let reversed = "";
         for (let char of str) {
@@ -252,8 +285,7 @@ class JSProblems {
         return reversed;
     }
 
-
-    twoSum(array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], sum = 5) {
+    twoSumSolution1(array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], sum = 5) {
         //Find pairs whose sum is equal to a common number from given array
         let map = {};
         const result = [];
@@ -267,6 +299,35 @@ class JSProblems {
         }
         console.log(result);
         return result;
+    }
+
+
+    twoSumSolution2(arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], S = 6) {
+        // our two sum function which will return
+        // all pairs in the array that sum up to S
+        var sums = [];
+        var hashTable = {};
+
+        // check each element in array
+        for (var i = 0; i < arr.length; i++) {
+
+            // calculate S - current element
+            var sumMinusElement = S - arr[i];
+
+            // check if this number exists in hash table
+            // if so then we found a pair of numbers that sum to S
+            if (hashTable[sumMinusElement.toString()] !== undefined) {
+                sums.push([arr[i], sumMinusElement]);
+            }
+
+            // add the current number to the hash table
+            hashTable[arr[i].toString()] = arr[i];
+
+        }
+
+        // return all pairs of integers that sum to S
+        return sums;
+
     }
 
     twoDiv(A = [20, 40, 60, 60], m = 60) {
@@ -346,7 +407,7 @@ class JSProblems {
     //   palindrome("Madam") === true
     //   palindrome("love") === false
 
-    palindrome(str = 'Madam') {
+    palindromeSolution1(str = 'Madam') {
         str = str.toLowerCase();
         let reversedStr = "";
         for (let char of str) {
@@ -355,8 +416,20 @@ class JSProblems {
         return str === reversedStr;
     }
 
+    palindromeSolution2(str = 'Madam') {
+        str = str.replace(/\W/g, '').toLowerCase();
+        return (str == str.split('').reverse().join(''));
+
+        // console.log(palindromeSolution2("level"));                   // logs 'true'
+        // console.log(palindromeSolution2("levels"));                  // logs 'false'
+        // console.log(palindromeSolution2("A car, a man, a maraca"));  // logs 'true'
+    }
+
     stringArraySortLowerUpper() {
         var arr = ['INDIA', 'india', 'B', 'b', 'c', 'd', 'D', 'C'];
+        console.log(arr.sort()); // ['B', 'C', 'D', 'INDIA','b', 'c', 'd', 'india']
+        console.log(arr.sort().reverse()); // ['india', 'd', 'c', 'b', 'INDIA', 'D','C',     'B']
+
         //OUTPUT: ['india', 'INDIA', 'd', 'D', 'c', 'C', 'b', 'B']
     }
 
@@ -372,6 +445,71 @@ class JSProblems {
 
         console.log(arr);
     }
+    // deep copy clone object
+
+    // Shallow copy
+    // var A1 = {a: "2"};
+    // var A2 = Object.assign({}, A1);
+    // var A3 = {...A1};  // Spread Syntax
+    clone(obj) {
+        if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
+            return obj;
+
+        if (obj instanceof Date)
+            var temp = new obj.constructor(); //or new Date(obj);
+        else
+            var temp = obj.constructor();
+
+        for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                obj['isActiveClone'] = null;
+                temp[key] = clone(obj[key]);
+                delete obj['isActiveClone'];
+            }
+        }
+        return temp;
+    }
+
+    // extends 'from' object with members from 'to'. If 'to' is null, a deep clone of 'from' is returned
+    // var obj = {
+    //     date: new Date(),
+    //     func: function(q) { return 1 + q; },
+    //     num: 123,
+    //     text: "asdasd",
+    //     array: [1, "asd"],
+    //     regex: new RegExp(/aaa/i),
+    //     subobj:
+    //     {
+    //         num: 234,
+    //         text: "asdsaD"
+    //     }
+    // }
+
+    // var clone = extend(obj);
+    extend(from, to) {
+        if (from == null || typeof from != "object") return from;
+        if (from.constructor != Object && from.constructor != Array) return from;
+        if (from.constructor == Date || from.constructor == RegExp || from.constructor == Function ||
+            from.constructor == String || from.constructor == Number || from.constructor == Boolean)
+            return new from.constructor(from);
+
+        to = to || new from.constructor();
+
+        for (var name in from) {
+            to[name] = typeof to[name] == "undefined" ? extend(from[name], null) : to[name];
+        }
+
+        return to;
+    }
+
+    //How would you check if a number is an integer?
+
+    isInt(num) {
+        return num % 1 === 0;
+    }
+    //   console.log(isInt(4)); // true
+    //   console.log(isInt(12.2)); // false
+    //   console.log(isInt(0.3)); // false
 
 
 
@@ -380,11 +518,12 @@ class JSProblems {
 const js = new JSProblems();
 
 //js.stringCompression('ppppshkshdkjjjjjj');
-console.log(js.arrayAddItemToFirstAndLast());
+console.log(js.removeDuplicatesFromArray());
 
 // references:
 // https://www.thatjsdude.com/interview/js1.html
 // https://www.thatjsdude.com/interview/js2.html
+// https://www.fullstack.cafe/blog/javascript-code-interview-questions
 
 
 
