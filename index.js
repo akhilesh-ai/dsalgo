@@ -511,21 +511,202 @@ class JSProblems {
     //   console.log(isInt(12.2)); // false
     //   console.log(isInt(0.3)); // false
 
+    flattenArray1(arr = [1, 2, [3, 4], 5, [[[6, 7], 8, [[[[9]]]]]]]) {
+        // Solution 1 Using inbuild method of es6 with flat level
+        let output1 = arr.flat(Infinity);
+        console.log('Solution 1=>', output1)
+        // output [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    }
 
+    flattenArray2(ary = [1, 2, [3, 4], 5, [[[6, 7], 8, [[[[9]]]]]]]) {
+        let output = ary.reduce((result, value) => {
+            if (Array.isArray(value)) {
+                result = result.concat(this.flattenArray2(value));
+            } else {
+                result.push(value);
+            }
+            return result;
+        }, []);
+        return output;
+    }
+
+    groupAnagrams(strs = ["eat", "tea", "tan", "ate", "nat", "bat"]) {
+        // Input: strs = ["eat","tea","tan","ate","nat","bat"]
+        // Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+        let result = {};
+        for (let word of strs) {
+            let cleansed = word.split("").sort().join("");
+            if (result[cleansed]) {
+                result[cleansed].push(word);
+            } else {
+                result[cleansed] = [word];
+            }
+        }
+        return Object.values(result); // [ [ 'eat', 'tea', 'ate' ], [ 'tan', 'nat' ], [ 'bat' ] ]
+    }
+
+    // Write polyfill for reduce
+
+    reducePollyfill() {
+
+        // this approach is when no reduce method is available in older browser
+        if (!Array.prototype.reduce) {
+            Array.prototype.reduce = function (cb, acc) {
+                for (var i = 0; i < this.length; i++) {
+                    var newAcc = cb(acc, this[i], i, this);
+                    if (newAcc === undefined)
+                        continue;
+                    acc = newAcc
+                }
+                return acc;
+            }
+        }
+
+    }
+
+    reducePollyfill() {
+        Array.prototype.newReduce = function (cb, acc) {
+            for (var i = 0; i < this.length; i++) {
+                var newAcc = cb(acc, this[i], i, this);
+                if (newAcc === undefined)
+                    continue;
+                acc = newAcc
+            }
+            return acc;
+        }
+
+        Array.prototype.newReduce1 = function (cb, acc) {
+            let accum = acc || undefined;
+            for (var i = 0; i < this.length; i++) {
+                var newAcc = cb(accum, this[i], i, this);
+                console.log(newAcc);
+                if (newAcc === undefined)
+                    continue;
+                accum = newAcc
+            }
+            return acc;
+        }
+        
+        Array.prototype.newReduce2 = function (callback, startingValue) {
+            // as starting value is an optional param
+            // make a check
+            let accumulator = startingValue || undefined;
+            for (let index = 0; index < this.length; index++) {
+                if (accumulator) {
+                    accumulator = callback(accumulator, this[index], index, this)
+                } else {
+                    accumulator = this[index]
+                }
+            }
+            return accumulator;
+        }
+        //https://medium.com/@noamsauerutley/group-anagrams-in-javascript-9fa05b9e0879
+    }
+
+    findSome(arr = [0, 2, 3, 4, 5]) {
+        return arr.newReduce2((acc, v) => acc * v);
+    }
+
+    flattenObj() {
+        let obj = {
+            a: {
+                b: {
+                    c: 1,
+                    p: 2
+                }
+            },
+            d: 1,
+            x: {
+                y: 5
+            }
+        };
+        const flattenObj = (obj, parent, res = {}) => {
+            for (const key of Object.keys(obj)) {
+                const propName = parent ? parent + '.' + key : key;
+                if (typeof obj[key] === 'object') {
+                    flattenObj(obj[key], propName, res);
+                } else {
+                    res[propName] = obj[key];
+                }
+            }
+            return res;
+        }
+        return flattenObj(obj);
+    }
+
+    // check common character from two given string like 
+    //hi, bye = false as no common charector
+    // hello, world = true as l and o is common
+    checkCommonString(s1, s2) {
+        var hash = {};
+        for (var i = 0; i < s1.length; i++) {
+            let char = s1[i].charCodeAt(0);
+            hash[char] = hash[char] ? hash[char]++ : 1
+        }
+
+        for (var i = 0; i < s2.length; i++) {
+            if (hash[s2[i].charCodeAt(0)] > 0)
+                return true;
+        }
+        return false;
+    }
+    // check in array of string values
+
+    commonSubstring(a = ['ab', 'bc', 'ef'], b = ['af', 'pw', 'gf']) {
+
+        for (let i = 0; i < a.length; i++) {
+
+            if (this.checkCommonString(a[i], b[i])) {
+                console.log('YES');
+            } else {
+                console.log('NO');
+            }
+        }
+    }
+
+    inventoryList() {
+        // write your code here
+        let items = [];
+
+        const add = (name) => {
+            if (items.indexOf(name) === -1) {
+                items.push(name);
+            }
+        }
+        const remove = (name) => {
+            items = items.filter(item => item !== name);
+        }
+
+        const getList = () => {
+            return items;
+        };
+
+        return { add, remove, getList };
+
+    }
 
 }
 
 const js = new JSProblems();
 
-//js.stringCompression('ppppshkshdkjjjjjj');
-console.log(js.removeDuplicatesFromArray());
 
-// references:
+//js.stringCompression('ppppshkshdkjjjjjj');
+// console.log(js.reducePollyfill());
+console.log(js.commonSubstring());
+
+// Must check references:
 // https://www.thatjsdude.com/interview/js1.html
 // https://www.thatjsdude.com/interview/js2.html
 // https://www.fullstack.cafe/blog/javascript-code-interview-questions
 
+// https://jsvault.com/array-flatten
+// https://akashjain993.medium.com/js-polyfills-interview-questions-cb431f3c98dd
 
-
+// https://reeversedev.com/polyfill-for-foreach-map-filter-reduce
+// https://reeversedev.com/polyfill-for-foreach-map-filter-reduce
 // BST algo and sorting alog
 // Searching algo
+
+
+
+

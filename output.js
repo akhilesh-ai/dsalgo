@@ -170,3 +170,29 @@ function areTheNumbersAlmostEqual(num1, num2) {
 }
 console.log(areTheNumbersAlmostEqual(0.1 + 0.2, 0.3)); // true
 
+
+function job(state) {
+    return new Promise(function (resolve, reject) {
+        if (state) {
+            resolve('success');
+        } else {
+            reject('error');
+        }
+    });
+}
+
+let promise = job(true);
+
+promise.then(function (data) {
+    console.log(data);   // success
+    return job(false);
+}).catch(function (error) {
+    console.log(error); // error
+    return 'Error caught';
+}).then(function (data) {
+    console.log(data);  // Error caught
+    return job(true);
+}).catch(function (error) {
+    console.log(error);  // this will not print anything
+});
+
