@@ -685,6 +685,38 @@ class JSProblems {
 
     }
 
+    fibno(n = 50) {
+        let output = 0;
+        let increment = 1;
+        for (let i = 0; i < n; i++) {
+        console.log(output) ;
+            let temp = output + increment;
+            output = increment;
+            increment =  temp;
+        }
+    }
+    factorila() {
+
+    }
+    // fibno(50);
+    
+    multiply(x) {
+        return function multiply(y) {
+            return x*y;
+        }
+    }
+    mergeArr(arr1 = [1,2], arr2 = [2, 3, 4]) {
+        let output={};
+       for (let i in arr1) {
+        output[ arr1[i]] = true;
+       }
+       
+       for (let i in arr2) {
+           output[arr2[i]] = true
+       }
+      console.log(Object.keys(output));
+     }
+
 }
 
 const js = new JSProblems();
@@ -703,7 +735,9 @@ console.log(js.commonSubstring());
 // https://akashjain993.medium.com/js-polyfills-interview-questions-cb431f3c98dd
 
 // https://reeversedev.com/polyfill-for-foreach-map-filter-reduce
-// https://reeversedev.com/polyfill-for-foreach-map-filter-reduce
+
+
+
 // BST algo and sorting alog
 // Searching algo
 
