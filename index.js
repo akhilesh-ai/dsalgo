@@ -3,16 +3,16 @@ class JSProblems {
 
     getDuplicateValuesFromArray() {
         // Write a program to output all duplicates in array.
-        let array = [1, 4, 5, 1, 3, 7, 7, 7, 8, 8, 6, 3]; //1, 3, 7, 8
-        let counts = {};
-        let output = [];
+        let array = [1, 4, 5, 1, 3, 7, 7, 7, 8, 8, 6, 3]; //1,7, 8, 3
+        let counts = {}; let output = [];
         for (let item of array) {
-            counts[item] = counts[item] >= 1 ? counts[item] + 1 : 1;
+            counts[item] = counts[item] + 1 || 1;
+            // count 2 means item is duplicate and count 1 means remove duplicates
             if (counts[item] === 2) {
                 output.push(item);
             }
         }
-        // output = array.filter((e, i, a) => a.indexOf(e) !== i); this is an alternate solution
+        // output = array.filter((e, i, a) => a.indexOf(e) !== i);
         console.log(output, counts);
         return output;
     }
@@ -77,7 +77,8 @@ class JSProblems {
         let output3 = arr.reduce((a, v) => ({ ...a, [v]: v }), {});
         console.log('Solution 3 => ', output3); //{ a: 'a', b: 'b', c: 'c', d: 'd' }
 
-        // Solution 4: // a = result object, v = current value, i = index, 4th ar will be array
+        // Solution 4: arr = ['a', 'b', 'c', 'd']
+        // a = result object, v = current value, i = index, 4th ar will be array
         let output4 = arr.reduce((a, v, i, arr) => ({ ...a, [v]: i }), {});
         console.log('Solution 4 => ', output4); // { a: 0, b: 1, c: 2, d: 3 }
 
@@ -120,22 +121,20 @@ class JSProblems {
 
     }
 
-    countEachVowelsInString() {
-        //Write a function which will take a string as an argument and return the occurrence of all the vowels in that string
+    //Write a function which will take a string as an argument and return the occurrence of all 
+    //the vowels in that string
 
-        let cities = "mumbai banglore hyderabad";
-        let vowelsArr = 'aeiou'.split('');
-        let output = {};
+    countEachVowelsInString(cities = "mumbai banglore hyderabad") {
+        let vowels = { 'a': true, 'e': true, 'i': true, 'o': true, 'u': true };
+        //or let vowelsArr = 'aeiou'.split('');
+        let output = {}; let totalCount = 0;
         for (let char of cities) {
-            if (vowelsArr.indexOf(char) !== -1) {
-                if (output[char]) {
-                    output[char]++;
-                } else {
-                    output[char] = 1;
-                }
+            if (vowels[char]) { // vowelsArr.indexOf(char) !== -1
+                output[char] = output[char] + 1 || 1;
+                totalCount++;
             }
         }
-        console.log(vowelsArr, output); // Output:  { u: 1, a: 4, i: 1, o: 1, e: 2 }
+        console.log(output, totalCount); // { u: 1, a: 4, i: 1, o: 1, e: 2 }
     }
 
     totalVowelsInString(str = "I am a world-class developer using iterations") {
@@ -162,28 +161,7 @@ class JSProblems {
 
     sortObjectArrayByKeyValue() {
         console.log('Add new property to object and sort by new property added:');
-        const peoples = [
-            {
-                id: 1,
-                Name: "ABC",
-                Age: 30
-            },
-            {
-                id: 2,
-                Name: "DEF",
-                Age: 33
-            },
-            {
-                id: 3,
-                Name: "GHI",
-                Age: 23
-            },
-            {
-                id: 4,
-                Name: "JKL",
-                Age: 19
-            }
-        ];
+        const peoples = [{ id: 1, Age: 30 }, { id: 2, Age: 33 }];
         for (let people of peoples) {
             let currentyear = new Date().getFullYear();
             people['birthYear'] = currentyear - people['Age'];
@@ -194,8 +172,7 @@ class JSProblems {
 
     stringCompression(str = 'aaabbapacccrrt') {
         if (str.length == 0) {
-            console.log('Please enter valid string.');
-            return;
+            return console.log('Please enter valid string.');
         }
         var output = '';
         var count = 0;
@@ -210,8 +187,8 @@ class JSProblems {
         console.log(output); // a3b2apac3r2t
     }
 
+    // Write a program to suffle an array elements
     suffleArray(arr = [1, 2, 3, 4, 5]) {
-        // Write a program to suffle an array elements
         let len = arr.length;
         for (let i in arr) {
             let idx1 = Math.floor(Math.random() * len);
@@ -219,23 +196,18 @@ class JSProblems {
             let temp = arr[idx1];
             arr[idx1] = arr[idx2];
             arr[idx2] = temp;
-        }
-        console.log(arr);
+        } console.log(arr);
         return arr;
     }
 
+    // Write a program to reverse array elements
     reverseArray(arr = [1, 2, 3, 4, 5]) {
-        // Write a program to reverse array elements
-        console.log('Input: ', arr);
-        // mannual solution
         for (let i = 0; i < arr.length / 2; i++) {
             let temp = arr[i];
             arr[i] = arr[arr.length - i - 1];
             arr[arr.length - i - 1] = temp;
-        }
-        // arr.reverse() built-in method solution
-        console.log('Output: ', arr);
-        return arr;
+        } // arr.reverse() built-in method solution
+        console.log(arr); // return arr;
     }
 
     reverseString(str = 'abcd') {
@@ -285,20 +257,17 @@ class JSProblems {
         return reversed;
     }
 
-    twoSumSolution1(array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], sum = 5) {
+    twoSumSolution1(array = [1, 2, 3, 4, 9, 10], num = 5) {
         //Find pairs whose sum is equal to a common number from given array
-        let map = {};
-        const result = [];
-
+        let map = {}; let result = [];
         for (let item of array) {
             if (map[item]) {
                 result.push([map[item], item]);
             } else {
-                map[sum - item] = item;
+                map[num - item] = item;
             }
         }
-        console.log(result);
-        return result;
+        console.log(result); //return result;
     }
 
 
@@ -330,18 +299,17 @@ class JSProblems {
 
     }
 
-    twoDiv(A = [20, 40, 60, 60], m = 60) {
-        const output = new Array(m + 1).fill(0);
+    twoDiv(A = [20, 40, 60, 60], num = 60) {
+        const output = new Array(num + 1).fill(0);
         for (let x of A) {
-            if (output[(m - x % m) % m]) {
-                output[m] += output[(m - x % m) % m];
+            if (output[(num - x % num) % num]) {
+                output[num] += output[(num - x % num) % num];
             } else {
-                output[x % m]++;
+                output[x % num]++;
             }
 
         }
-        console.log(output[m]);
-        return output[m];
+        console.log(output[m]); //return output[m];
     }
 
 
@@ -360,23 +328,18 @@ class JSProblems {
     anagramsSolution1(stringA = 'heart', stringB = 'earth') {
         stringA = stringA.toLowerCase().replace(/[^A-Z0-9]+/gi, "");
         stringB = stringB.toLowerCase().replace(/[^A-Z0-9]+/gi, "");
+        // check for same string
+        if (stringA === stringB) return true;
+        // check for same length, if not return false
+        if (stringA.length !== stringB.length) return false;
 
-        if (stringA.length !== stringB.length) {
-            return false;
-        }
-
-        if (stringA === stringB) {
-            return true;
-        }
-
-        const stringACounts = {};
-
+        const stringACounts = {}; // count all chars
         for (let char of stringA) {
             stringACounts[char] = stringACounts[char] + 1 || 1;
         }
 
         for (let char of stringB) {
-            if (!stringACounts[char]) {
+            if (!stringACounts[char]) { // if no char from strB 
                 return false;
             } else {
                 stringACounts[char]--;
@@ -388,15 +351,8 @@ class JSProblems {
     anagramsSolution2(stringA = 'Heart!', stringB = 'EARTH') {
         stringA = stringA.toLowerCase().replace(/[\W_]+/gi, "");
         stringB = stringB.toLowerCase().replace(/[\W_]+/gi, "");
-        stringA = stringA
-            .split("") // O(n)
-            .sort() // O(nlogn)
-            .join(""); // // O(n)
-        //O(nlogn + 2n) = O(nlogn)
-        stringB = stringB
-            .split("")
-            .sort()
-            .join("");
+        stringA = stringA.split("").sort().join("");   // O(n) + O(nlogn) + O(n) = O(nlogn + 2n) = O(nlogn)
+        stringB = stringB.split("").sort().join("");
         return stringA === stringB;
     }
 
@@ -406,7 +362,6 @@ class JSProblems {
     // --- Examples:
     //   palindrome("Madam") === true
     //   palindrome("love") === false
-
     palindromeSolution1(str = 'Madam') {
         str = str.toLowerCase();
         let reversedStr = "";
@@ -415,14 +370,13 @@ class JSProblems {
         }
         return str === reversedStr;
     }
+    // console.log(palindromeSolution2("level"));                   // logs 'true'
+    // console.log(palindromeSolution2("levels"));                  // logs 'false'
+    // console.log(palindromeSolution2("A car, a man, a maraca"));  // logs 'true'
 
     palindromeSolution2(str = 'Madam') {
         str = str.replace(/\W/g, '').toLowerCase();
         return (str == str.split('').reverse().join(''));
-
-        // console.log(palindromeSolution2("level"));                   // logs 'true'
-        // console.log(palindromeSolution2("levels"));                  // logs 'false'
-        // console.log(palindromeSolution2("A car, a man, a maraca"));  // logs 'true'
     }
 
     stringArraySortLowerUpper() {
@@ -451,7 +405,7 @@ class JSProblems {
     // var A1 = {a: "2"};
     // var A2 = Object.assign({}, A1);
     // var A3 = {...A1};  // Spread Syntax
-    clone(obj) {
+    clone(obj) { // method for deep copy
         if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
             return obj;
 
@@ -503,7 +457,6 @@ class JSProblems {
     }
 
     //How would you check if a number is an integer?
-
     isInt(num) {
         return num % 1 === 0;
     }
@@ -514,8 +467,7 @@ class JSProblems {
     flattenArray1(arr = [1, 2, [3, 4], 5, [[[6, 7], 8, [[[[9]]]]]]]) {
         // Solution 1 Using inbuild method of es6 with flat level
         let output1 = arr.flat(Infinity);
-        console.log('Solution 1=>', output1)
-        // output [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        console.log(output1);// [1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
 
     flattenArray2(ary = [1, 2, [3, 4], 5, [[[6, 7], 8, [[[[9]]]]]]]) {
@@ -530,21 +482,20 @@ class JSProblems {
         return output;
     }
 
-    groupAnagrams(strs = ["eat", "tea", "tan", "ate", "nat", "bat"]) {
-        // Input: strs = ["eat","tea","tan","ate","nat","bat"]
-        // Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+    groupAnagrams(wordArr = ["eat", "tea", "tan", "ate", "nat", "bat"]) {
         let result = {};
-        for (let word of strs) {
-            let cleansed = word.split("").sort().join("");
-            if (result[cleansed]) {
-                result[cleansed].push(word);
+        for (let word of wordArr) {
+            let sortedWord = word.split("").sort().join("");
+            if (result[sortedWord]) {
+                result[sortedWord].push(word);
             } else {
-                result[cleansed] = [word];
+                result[sortedWord] = [word];
             }
         }
-        return Object.values(result); // [ [ 'eat', 'tea', 'ate' ], [ 'tan', 'nat' ], [ 'bat' ] ]
+        // [ [ 'eat', 'tea', 'ate' ], [ 'tan', 'nat' ], [ 'bat' ] ]
+        return Object.values(result);
     }
-
+    //https://medium.com/@noamsauerutley/group-anagrams-in-javascript-9fa05b9e0879
     // Write polyfill for reduce
 
     reducePollyfill() {
@@ -562,45 +513,6 @@ class JSProblems {
             }
         }
 
-    }
-
-    reducePollyfill() {
-        Array.prototype.newReduce = function (cb, acc) {
-            for (var i = 0; i < this.length; i++) {
-                var newAcc = cb(acc, this[i], i, this);
-                if (newAcc === undefined)
-                    continue;
-                acc = newAcc
-            }
-            return acc;
-        }
-
-        Array.prototype.newReduce1 = function (cb, acc) {
-            let accum = acc || undefined;
-            for (var i = 0; i < this.length; i++) {
-                var newAcc = cb(accum, this[i], i, this);
-                console.log(newAcc);
-                if (newAcc === undefined)
-                    continue;
-                accum = newAcc
-            }
-            return acc;
-        }
-        
-        Array.prototype.newReduce2 = function (callback, startingValue) {
-            // as starting value is an optional param
-            // make a check
-            let accumulator = startingValue || undefined;
-            for (let index = 0; index < this.length; index++) {
-                if (accumulator) {
-                    accumulator = callback(accumulator, this[index], index, this)
-                } else {
-                    accumulator = this[index]
-                }
-            }
-            return accumulator;
-        }
-        //https://medium.com/@noamsauerutley/group-anagrams-in-javascript-9fa05b9e0879
     }
 
     findSome(arr = [0, 2, 3, 4, 5]) {
@@ -637,26 +549,22 @@ class JSProblems {
     // check common character from two given string like 
     //hi, bye = false as no common charector
     // hello, world = true as l and o is common
-    checkCommonString(s1, s2) {
+    isCommonCharInTwoStrings(s1 = 'ab', s2 = 'cdbd') {
         var hash = {};
-        for (var i = 0; i < s1.length; i++) {
-            let char = s1[i].charCodeAt(0);
-            hash[char] = hash[char] ? hash[char]++ : 1
+        for (let char of s1) {
+            hash[char] = hash[char] + 1 || 1
         }
-
-        for (var i = 0; i < s2.length; i++) {
-            if (hash[s2[i].charCodeAt(0)] > 0)
+        for (let char of s2) {
+            if (hash[char] > 0) {
                 return true;
+            }
         }
         return false;
     }
     // check in array of string values
-
     commonSubstring(a = ['ab', 'bc', 'ef'], b = ['af', 'pw', 'gf']) {
-
         for (let i = 0; i < a.length; i++) {
-
-            if (this.checkCommonString(a[i], b[i])) {
+            if (this.isCommonCharInTwoStrings(a[i], b[i])) {
                 console.log('YES');
             } else {
                 console.log('NO');
@@ -686,58 +594,104 @@ class JSProblems {
     }
 
     fibno(n = 50) {
-        let output = 0;
-        let increment = 1;
+        let output = 0; let next = 1;
         for (let i = 0; i < n; i++) {
-        console.log(output) ;
-            let temp = output + increment;
-            output = increment;
-            increment =  temp;
+            console.log(output);
+            let temp = output + next;
+            output = next;
+            next = temp;
         }
     }
-    factorila() {
 
-    }
-    // fibno(50);
-    
-    multiply(x) {
-        return function multiply(y) {
-            return x*y;
+    factorial(number = 5) {
+        if (number < 0) {
+            console.log('Error! Factorial for negative number does not exist.');
+        } else if (number === 0) {
+            console.log(`The factorial of ${number} is 1.`);
+        } else {
+            let fact = 1;
+            for (let i = 1; i <= number; i++) {
+                fact *= i;
+            }
+            console.log(`The factorial of ${number} is ${fact}.`);
         }
     }
-    mergeArr(arr1 = [1,2], arr2 = [2, 3, 4]) {
-        let output={};
-       for (let i in arr1) {
-        output[ arr1[i]] = true;
-       }
-       
-       for (let i in arr2) {
-           output[arr2[i]] = true
-       }
-      console.log(Object.keys(output));
-     }
+
+    multiply(x) {
+        return function (y) {
+            return function (z) {
+                return x * y * z;
+            };
+        }
+    }
+
+    mergeArr(arr1 = [1, 2], arr2 = [2, 3, 4]) {
+        let output = {};
+        for (let i in arr1) {
+            output[arr1[i]] = true;
+        }
+        for (let i in arr2) {
+            output[arr2[i]] = true
+        }
+        console.log(Object.keys(output));
+    }
+
+    // Given a string containing brackets [], 
+    // braces {}, parentheses (), 
+    // in any combination, 
+    // verify that they are matched and nested correctly
+    // Input : { a + b } + ( c + d )
+    // Output: Valid
+    // Input: { ( a + b } )
+    // Output: Invalid
+    checkValidParenthesis(str = '{ ( a + b } )') {
+        const obj = {
+            "(": ")",
+            "{": "}",
+            "[": "]",
+        };
+        const stack = [];
+        for (let char of str) {
+            if (obj[char]) {
+                stack.push(char);
+            } else if (obj[stack[stack.length - 1]] === char) {
+                stack.pop();
+            }
+        }
+        return stack.length === 0;
+    }
+
+    isPrime(num = 4) {
+        for (let i = 2; i < num; i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return num > 1;
+    }
 
 }
 
 const js = new JSProblems();
-
+console.log(js.isPrime());
 
 //js.stringCompression('ppppshkshdkjjjjjj');
 // console.log(js.reducePollyfill());
-console.log(js.commonSubstring());
+// if (js.checkValidParenthesis()) {
+//     console.log('Valid');
+// } else {
+//     console.log('InValid');
+// }
 
 // Must check references:
 // https://www.thatjsdude.com/interview/js1.html
 // https://www.thatjsdude.com/interview/js2.html
 // https://www.fullstack.cafe/blog/javascript-code-interview-questions
-
 // https://jsvault.com/array-flatten
-// https://akashjain993.medium.com/js-polyfills-interview-questions-cb431f3c98dd
 
-// https://reeversedev.com/polyfill-for-foreach-map-filter-reduce
-
-
-
+// https://www.softwaretestinghelp.com/coding-interview-questions/
+// https://codeburst.io/100-coding-interview-questions-for-programmers-b1cf74885fb7
+// https://www.java67.com/2015/08/how-to-swap-two-integers-without-using.html
 // BST algo and sorting alog
 // Searching algo
 
